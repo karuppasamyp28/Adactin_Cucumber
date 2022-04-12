@@ -1,0 +1,1011 @@
+			FEATURE FILE
+
+Feature: Hotel Booking In Adaction Application
+
+Scenario: Login Functionality
+Given user Launches The Application
+When user Enters The Username In Usernamefield
+And user Enters The Password In Passwordfield
+Then user clicks The Login Button And It Navigates To The Search Hotel Page
+ 
+ Scenario: Search Hotel Functionality
+ When user Select The Location In Loacation Field 
+ And user Select The Hotels In Select Hotel Field
+ And user Select The Roomtype In Select Roomtype Field
+ And user Enters The Number Of Rooms 
+ And user Select The CheckInDate
+ And user Select The CheckOutDate
+ And user Enters Adults Per Room
+ And user Enters Child Per Room
+ Then user Clicks The Search Button And It Navigates To Next Page
+ 
+Scenario: Select Hotel Functionality
+Given user Selects The Radiobutton
+Then user Clicks To Continue
+
+Scenario: Hotel Booking Functionality
+Given user Enters Firstname In Required Field
+Then user Enters Lastname In Required Field
+And user Enters Address In Required Field
+And user Enters Card Number In Required Field
+And user Selects Card Type
+And user selects Card Expire Month
+And user Selects Card Expire Year
+And user Enters Cvv Number In Required Field
+And user Clicks The Book Now Button
+Then user Takes Screenshot
+
+Scenario: Logout Functionality
+Given user Clicks Logout Button
+
+
+
+			RUNNER
+
+package com.runner;
+
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.runner.RunWith;
+import org.openqa.selenium.WebDriver;
+
+import com.base.BaseClass;
+
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(features = "src\\test\\java\\com\\feature", glue = "com\\stepdefinition")
+
+public class Runner {
+	public static WebDriver driver;
+
+	@BeforeClass
+	public static void setUp() {
+//		driver = BaseClass.browserLaunch("chrome");
+	}
+
+	@AfterClass
+	public static void tearDown() {
+		BaseClass.close();
+	}
+}
+
+
+
+			STEP DEFINITION
+
+
+package com.stepdefinition;
+
+import org.openqa.selenium.WebDriver;
+
+import com.base.BaseClass;
+import com.config.helper.FileReaderManager;
+import com.pom.PageObjectManager;
+
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+
+public class StepDefinition extends BaseClass {
+	public static WebDriver driver = BaseClass.browserLaunch("chrome");
+	PageObjectManager pom = new PageObjectManager(driver);
+
+	@Given("user Launches The Application")
+	public void user_launches_the_application() throws Throwable {
+		// driver =
+		// BaseClass.browserLaunch(FileReaderManager.getInstanceFrm().getInstanceCr().getBrowser());
+		getUrl(FileReaderManager.getInstanceFrm().getInstanceCr().getUrl());
+		wait(5);
+	}
+
+	@When("user Enters The Username In Usernamefield")
+	public void user_enters_the_username_in_usernamefield() throws Throwable {
+		inputValueElement(pom.getLp().getUsername(), FileReaderManager.getInstanceFrm().getInstanceCr().getUsername());
+	}
+
+	@When("user Enters The Password In Passwordfield")
+	public void user_enters_the_password_in_passwordfield() throws Throwable {
+		inputValueElement(pom.getLp().getPassword(), FileReaderManager.getInstanceFrm().getInstanceCr().getPassword());
+	}
+
+	@Then("user clicks The Login Button And It Navigates To The Search Hotel Page")
+	public void user_clicks_the_login_button_and_it_navigates_to_the_search_hotel_page() {
+		clickOnElement(pom.getLp().getSubmit());
+	}
+
+	@When("user Select The Location In Loacation Field")
+	public void user_select_the_location_in_loacation_field() throws Throwable {
+		dropDown(pom.getSh().getLocation(), "value", FileReaderManager.getInstanceFrm().getInstanceCr().getLocation());
+	}
+
+	@When("user Select The Hotels In Select Hotel Field")
+	public void user_select_the_hotels_in_select_hotel_field() throws Throwable {
+		dropDown(pom.getSh().getHotel(), "value", FileReaderManager.getInstanceFrm().getInstanceCr().getHotel());
+	}
+
+	@When("user Select The Roomtype In Select Roomtype Field")
+	public void user_select_the_roomtype_in_select_roomtype_field() throws Throwable {
+		dropDown(pom.getSh().getRoomtype(), "value", FileReaderManager.getInstanceFrm().getInstanceCr().getRoomtype());
+	}
+
+	@When("user Enters The Number Of Rooms")
+	public void user_enters_the_number_of_rooms() throws Throwable {
+		dropDown(pom.getSh().getRoomno(), "value", FileReaderManager.getInstanceFrm().getInstanceCr().getRoomno());
+	}
+
+	@When("user Select The CheckInDate")
+	public void user_select_the_check_in_date() throws Throwable {
+		inputValueElement(pom.getSh().getDatein(), FileReaderManager.getInstanceFrm().getInstanceCr().getCheckindate());
+	}
+
+	@When("user Select The CheckOutDate")
+	public void user_select_the_check_out_date() throws Throwable {
+		inputValueElement(pom.getSh().getDateout(),
+				FileReaderManager.getInstanceFrm().getInstanceCr().getCheckoutdate());
+	}
+
+	@When("user Enters Adults Per Room")
+	public void user_enters_adults_per_room() throws Throwable {
+		dropDown(pom.getSh().getAdult(), "value", FileReaderManager.getInstanceFrm().getInstanceCr().getAdultroom());
+	}
+
+	@When("user Enters Child Per Room")
+	public void user_enters_child_per_room() throws Throwable {
+		dropDown(pom.getSh().getChild(), "value", FileReaderManager.getInstanceFrm().getInstanceCr().getChildroom());
+	}
+
+	@Then("user Clicks The Search Button And It Navigates To Next Page")
+	public void user_clicks_the_search_button_and_it_navigates_to_next_page() throws Throwable {
+		clickOnElement(pom.getSh().getSubmit());
+	}
+
+	@Given("user Selects The Radiobutton")
+	public void user_selects_the_radiobutton() throws Throwable {
+		clickOnElement(pom.getHp().getRadiobutton());
+	}
+
+	@Then("user Clicks To Continue")
+	public void user_clicks_to_continue() throws Throwable {
+		clickOnElement(pom.getHp().getNext());
+	}
+
+	@Given("user Enters Firstname In Required Field")
+	public void user_enters_firstname_in_required_field() throws Throwable {
+		inputValueElement(pom.getHb().getFn(), FileReaderManager.getInstanceFrm().getInstanceCr().getFirstname());
+	}
+
+	@Then("user Enters Lastname In Required Field")
+	public void user_enters_lastname_in_required_field() throws Throwable {
+		inputValueElement(pom.getHb().getLn(), FileReaderManager.getInstanceFrm().getInstanceCr().getLastname());
+	}
+
+	@Then("user Enters Address In Required Field")
+	public void user_enters_address_in_required_field() throws Throwable {
+		inputValueElement(pom.getHb().getAddress(), FileReaderManager.getInstanceFrm().getInstanceCr().getAddress());
+	}
+
+	@Then("user Enters Card Number In Required Field")
+	public void user_enters_card_number_in_required_field() throws Throwable {
+		inputValueElement(pom.getHb().getCc(), FileReaderManager.getInstanceFrm().getInstanceCr().getCcno());
+	}
+
+	@Then("user Selects Card Type")
+	public void user_selects_card_type() throws Throwable {
+		dropDown(pom.getHb().getType(), "value", FileReaderManager.getInstanceFrm().getInstanceCr().getCctype());
+	}
+
+	@Then("user selects Card Expire Month")
+	public void user_selects_card_expire_month() throws Throwable {
+		dropDown(pom.getHb().getEm(), "value", FileReaderManager.getInstanceFrm().getInstanceCr().getCcexpmonth());
+	}
+
+	@Then("user Selects Card Expire Year")
+	public void user_selects_card_expire_year() throws Throwable {
+		dropDown(pom.getHb().getEy(), "value", FileReaderManager.getInstanceFrm().getInstanceCr().getCcexpyear());
+	}
+
+	@Then("user Enters Cvv Number In Required Field")
+	public void user_enters_cvv_number_in_required_field() throws Throwable {
+		inputValueElement(pom.getHb().getCvv(), FileReaderManager.getInstanceFrm().getInstanceCr().getCvvno());
+	}
+
+	@Then("user Clicks The Book Now Button")
+	public void user_clicks_the_book_now_button() throws Throwable {
+		clickOnElement(pom.getHb().getBook());
+		Thread.sleep(10000);
+	}
+
+	@Then("user Takes Screenshot")
+	public void user_takes_screenshot() throws Throwable {
+		screenshot("book");
+	}
+
+	@Given("user Clicks Logout Button")
+	public void user_clicks_logout_button() throws Throwable {
+		clickOnElement(pom.getLo().getLogout());
+	}
+
+}
+
+
+
+			BASE CLASS
+
+
+package com.base;
+
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
+
+public class BaseClass {
+	public static WebDriver driver;
+
+	// all methods in base class will be child class, things we dont know here are
+	// kept as parameter
+
+//browser launch
+	public static WebDriver browserLaunch(String browserName) {
+
+		if (browserName.equalsIgnoreCase("chrome")) {
+			System.setProperty("webdriver.chrome.driver",
+					"E:\\Software\\Greens JAVA\\Adactin_Project_Final\\Driver\\chromedriver.exe");
+
+			// System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")
+			// + "\\Driver\\chromedriver.exe");
+
+			// WebDriver driver = new ChromeDriver();
+			driver = new ChromeDriver();
+
+			driver.manage().window().maximize();
+		}
+
+		else if (browserName.equalsIgnoreCase("firefox")) {
+			// System.setProperty("webdriver.chrome.driver", "E:\\Software\\Greens
+			// JAVA\\BD_Project\\Driver\\chromedriver.exe");
+
+			System.setProperty("webdriver.chrome.driver",
+					System.getProperty("user.dir") + "\\Driver\\chromedriver.exe");
+
+			// WebDriver driver = new ChromeDriver();
+			driver = new ChromeDriver();
+
+			driver.manage().window().maximize();
+		}
+
+		else if (browserName.equalsIgnoreCase("edge")) {
+			// System.setProperty("webdriver.chrome.driver", "E:\\Software\\Greens
+			// JAVA\\BD_Project\\Driver\\chromedriver.exe");
+
+			System.setProperty("webdriver.chrome.driver",
+					System.getProperty("user.dir") + "\\Driver\\chromedriver.exe");
+
+			// WebDriver driver = new ChromeDriver();
+			driver = new ChromeDriver();
+
+			driver.manage().window().maximize();
+		}
+		return driver;
+
+	}
+
+//close
+	public static void close() {
+		driver.close();
+	}
+
+//quit
+	public static void quit() {
+		driver.quit();
+	}
+
+//getUrl
+	public static void getUrl(String url) {
+		driver.get(url);
+	}
+
+//getTitle
+	public static void getTitle() {
+		String title = driver.getTitle();
+		System.out.println(title);
+	}
+
+//getCurrentUrl
+	public static void getCurrentUrl() {
+		String currentUrl = driver.getCurrentUrl();
+		System.out.println(currentUrl);
+	}
+
+//getText
+	public static void getText(WebElement element) {
+		String text = element.getText();
+		System.out.println(text);
+	}
+
+//refresh
+	public static void refresh() {
+		driver.navigate().refresh();
+	}
+
+//back
+	public static void back() {
+		driver.navigate().back();
+	}
+
+//forward
+	public static void forward() {
+		driver.navigate().forward();
+	}
+
+//navigateTo
+	public static void navigateTo(String url) {
+		driver.navigate().to(url);
+	}
+
+//inputValueElement
+	public static void inputValueElement(WebElement element, String value) {
+		element.sendKeys(value);
+	}
+
+//clickOnElement
+	public static void clickOnElement(WebElement element) {
+		element.click();
+	}
+
+//clear
+	public static void clear(WebElement element) {
+		element.clear();
+	}
+
+//isEnabled
+	public static void isEnabled(WebElement element) {
+		boolean enabled = element.isEnabled();
+		System.out.println("is enabled" + enabled);
+	}
+
+//isDisplayed
+	public static void isDisplayed(WebElement element) {
+		boolean displayed = element.isDisplayed();
+		System.out.println("is displayed" + displayed);
+	}
+
+//isSelected
+	public static void isSelected(WebElement element) {
+		boolean selected = element.isSelected();
+		System.out.println("is selected" + selected);
+	}
+
+//getAttribute
+	public static void getAttribute(WebElement element, String type) {
+		if (type.equalsIgnoreCase("value")) {
+			String attribute = element.getAttribute("value");
+			System.out.println(attribute);
+		} else if (type.equalsIgnoreCase("name")) {
+			String attribute = element.getAttribute("name");
+			System.out.println(attribute);
+		}
+	}
+
+//singledropdown
+	public static void dropDown(WebElement element, String type, String value) {
+
+		Select s = new Select(element);
+
+		if (type.equalsIgnoreCase("value")) {
+			s.selectByValue(value);
+		}
+
+		else if (type.equalsIgnoreCase("text")) {
+			s.selectByVisibleText(value);
+		}
+
+		else if (type.equalsIgnoreCase("index")) {
+			int parseInt = Integer.parseInt(value);
+			s.selectByIndex(parseInt);
+		}
+	}
+
+//wait
+	public static void wait(int time) {
+		driver.manage().timeouts().implicitlyWait(time, TimeUnit.SECONDS);
+	}
+
+//alert
+	public static void alert(String alerttype) {
+		Alert alert = driver.switchTo().alert();
+
+		if (alerttype.equalsIgnoreCase("ok")) {
+			alert.accept();
+		} else if (alerttype.equalsIgnoreCase("cancel")) {
+			alert.dismiss();
+		}
+		if (alerttype.equalsIgnoreCase("gettext")) {
+			alert.getText();
+		}
+	}
+
+//actions
+	public static void action(WebElement element, String type) {
+		Actions act = new Actions(driver);
+		if (type.equalsIgnoreCase("move")) {
+			act.moveToElement(element).build().perform();
+		} else if (type.equalsIgnoreCase("click")) {
+			act.click(element).build().perform();
+		} else if (type.equalsIgnoreCase("doubleclick")) {
+			act.doubleClick(element).build().perform();
+		} else if (type.equalsIgnoreCase("rightclick")) {
+			act.contextClick(element).build().perform();
+		}
+	}
+
+//dragdrop
+	public static void dragdrop(WebElement source, WebElement target) {
+		Actions act = new Actions(driver);
+		act.dragAndDrop(source, target).build().perform();
+	}
+
+//windowshandles using index
+	public static void windowhandles(int i) {
+		Set<String> windowHandles = driver.getWindowHandles();
+		List<String> list = new ArrayList<String>();
+		list.addAll(windowHandles);
+		driver.switchTo().window(list.get(i));
+	}
+
+//windowshandles using title
+	public static void windowhandlestitle(String actual) {
+		Set<String> windowHandles = driver.getWindowHandles();
+		for (String all : windowHandles) {
+			if (driver.switchTo().window(all).getTitle().equals(actual)) {
+				break;
+			}
+		}
+	}
+
+//frames
+	public static void singleframe(WebElement element) {
+		driver.switchTo().frame(element);
+	}
+
+	public static void defaultcontent() {
+		driver.switchTo().defaultContent();
+	}
+
+	public static void multipleframe(WebElement outerframe, WebElement innerframe) {
+		driver.switchTo().frame(outerframe);
+		driver.switchTo().frame(innerframe);
+	}
+
+//screenshot
+	public static void screenshot(String filename) throws IOException {
+		TakesScreenshot ts = (TakesScreenshot) driver;
+		File src = ts.getScreenshotAs(OutputType.FILE);
+		File dest = new File("E:\\Software\\Greens JAVA\\Adactin_Project_Final\\Screenshot\\" + filename + ".png");
+		FileUtils.copyFile(src, dest);
+	}
+
+//robot
+	public static void robot(String type) throws AWTException {
+		Robot r = new Robot();
+
+		if (type.equalsIgnoreCase("down")) {
+			r.keyPress(KeyEvent.VK_DOWN);
+			r.keyRelease(KeyEvent.VK_DOWN);
+		} else if (type.equalsIgnoreCase("up")) {
+			r.keyPress(KeyEvent.VK_UP);
+			r.keyRelease(KeyEvent.VK_UP);
+		} else if (type.equalsIgnoreCase("enter")) {
+			r.keyPress(KeyEvent.VK_ENTER);
+		}
+
+	}
+
+}
+
+
+
+			CONFIGURATION
+
+
+browser = chrome
+url = https://adactinhotelapp.com/
+username = karuppasamyp28
+password = karuppu28
+location = New York
+hotel = Hotel Sunshine
+roomtype =Super Deluxe
+room_nos = 3
+datepick_in = 15/03/2022
+datepick_out = 16/03/2022
+adult_room = 2
+child_room = 1
+firstname = Karuppasamy
+lastname = P
+address = 1A,Vkpuram,Tirunelveli
+ccno = 0123540123456789
+cc_type = VISA
+cc_exp_month = 12
+cc_exp_year = 2022
+cvvno = 222
+
+
+
+			CONFIGURATION READER
+
+
+package com.config.helper;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
+public class Configuration_Reader {
+	public Properties p;
+
+	public Configuration_Reader() throws IOException {
+		File f = new File(
+				"E:\\Software\\Greens JAVA\\Adactin_Project_Final\\src\\main\\java\\com\\config\\properties\\configuration.properties");
+		FileInputStream fis = new FileInputStream(f);
+		p = new Properties();
+		p.load(fis);
+	}
+
+	public String getBrowser() {
+		String browser = p.getProperty("browser");
+		return browser;
+	}
+	
+	public String getUrl() {
+		String url = p.getProperty("url");
+		return url;
+	}
+
+	public String getUsername() {
+		String username = p.getProperty("username");
+		return username;
+	}
+
+	public String getPassword() {
+		String password = p.getProperty("password");
+		return password;
+	}
+
+	public String getLocation() {
+		String location = p.getProperty("location");
+		return location;
+
+	}
+
+	public String getHotel() {
+		String hotel = p.getProperty("hotel");
+		return hotel;
+	}
+
+	public String getRoomtype() {
+		String roomtype = p.getProperty("roomtype");
+		return roomtype;
+	}
+
+	public String getRoomno() {
+		String roomno = p.getProperty("room_nos");
+		return roomno;
+	}
+
+	public String getCheckindate() {
+		String indate = p.getProperty("datepick_in");
+		return indate;
+	}
+
+	public String getCheckoutdate() {
+		String outdate = p.getProperty("datepick_out");
+		return outdate;
+	}
+
+	public String getAdultroom() {
+		String adultroom = p.getProperty("adult_room");
+		return adultroom;
+	}
+
+	public String getChildroom() {
+		String childroom = p.getProperty("child_room");
+		return childroom;
+	}
+
+	public String getFirstname() {
+		String fname = p.getProperty("firstname");
+		return fname;
+	}
+
+	public String getLastname() {
+		String lname = p.getProperty("lastname");
+		return lname;
+	}
+
+	public String getAddress() {
+		String address = p.getProperty("address");
+		return address;
+	}
+
+	public String getCcno() {
+		String ccno = p.getProperty("ccno");
+		return ccno;
+
+	}
+
+	public String getCctype() {
+		String cctype = p.getProperty("cc_type");
+		return cctype;
+	}
+
+	public String getCcexpmonth() {
+		String ccexpmonth = p.getProperty("cc_exp_month");
+		return ccexpmonth;
+	}
+
+	public String getCcexpyear() {
+		String ccexpyear = p.getProperty("cc_exp_year");
+		return ccexpyear;
+	}
+
+	public String getCvvno() {
+		String cvvno = p.getProperty("cvvno");
+		return cvvno;
+	}
+}
+
+
+
+
+			FILE READER MANAGER
+
+package com.config.helper;
+
+import java.io.IOException;
+
+public class FileReaderManager {
+
+	
+	private FileReaderManager() {
+		
+	}
+	
+	public static FileReaderManager getInstanceFrm() {
+		FileReaderManager frm = new FileReaderManager();
+		return frm;
+	}
+	
+	public Configuration_Reader getInstanceCr() throws IOException {
+		Configuration_Reader cr = new Configuration_Reader();
+		return cr;
+	}
+}
+
+
+
+			POJO CLASS
+
+			LOGIN PAGE
+
+package com.pageobject;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class LoginPage {
+
+	public static WebDriver driver;
+	
+	@FindBy(xpath="//input[@id='username']")
+	private WebElement username;
+
+	@FindBy(xpath="//input[@id='password']")
+	private WebElement password;
+	
+	@FindBy(xpath="//input[@id='login']")
+	private WebElement submit;
+	
+	public LoginPage(WebDriver driver2) {
+		this.driver = driver2;
+		PageFactory.initElements(driver, this);
+	}
+	
+	public WebElement getUsername() {
+		return username;
+	}
+
+	public WebElement getPassword() {
+		return password;
+	}
+
+	public WebElement getSubmit() {
+		return submit;
+	}
+
+	
+	
+}
+
+
+
+			SEARCH HOTERL PAGE
+
+
+package com.pageobject;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class SearchHotel {
+	public static WebDriver driver;
+
+	public SearchHotel(WebDriver driver2) {
+		this.driver = driver2;
+		PageFactory.initElements(driver, this);
+	}
+
+	@FindBy(id = "location")
+	private WebElement location;
+	@FindBy(id = "hotels")
+	private WebElement hotel;
+	@FindBy(id = "room_type")
+	private WebElement roomtype;
+	@FindBy(id = "room_nos")
+	private WebElement roomno;
+	@FindBy(id = "datepick_in")
+	private WebElement datein;
+	@FindBy(id = "datepick_out")
+	private WebElement dateout;
+	@FindBy(id = "adult_room")
+	private WebElement adult;
+	@FindBy(id = "child_room")
+	private WebElement child;
+	@FindBy(id = "Submit")
+	private WebElement submit;
+
+	public WebElement getLocation() {
+		return location;
+	}
+
+	public WebElement getHotel() {
+		return hotel;
+	}
+
+	public WebElement getRoomtype() {
+		return roomtype;
+	}
+
+	public WebElement getRoomno() {
+		return roomno;
+	}
+
+	public WebElement getDatein() {
+		return datein;
+	}
+
+	public WebElement getDateout() {
+		return dateout;
+	}
+
+	public WebElement getAdult() {
+		return adult;
+	}
+
+	public WebElement getChild() {
+		return child;
+	}
+
+	public WebElement getSubmit() {
+		return submit;
+	}
+
+}
+
+
+
+			SELECT HOTEL PAGE
+
+package com.pageobject;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class SelectHotel {
+	public static WebDriver driver;
+	@FindBy(id = "radiobutton_0")
+	private WebElement radiobutton;
+	@FindBy(id = "continue")
+	private WebElement next;
+
+	public SelectHotel(WebDriver driver2) {
+		this.driver = driver2;
+		PageFactory.initElements(driver, this);
+	}
+
+	public WebElement getRadiobutton() {
+		return radiobutton;
+	}
+
+	public WebElement getNext() {
+		return next;
+	}
+
+}
+
+
+			HOTEL BOOK PAGE
+
+package com.pageobject;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class HotelBooking {
+	public static WebDriver driver;
+
+	@FindBy(id = "first_name")
+	private WebElement fn;
+	@FindBy(id = "last_name")
+	private WebElement ln;
+	@FindBy(id = "address")
+	private WebElement address;
+	@FindBy(id = "cc_num")
+	private WebElement cc;
+	@FindBy(id = "cc_type")
+	private WebElement type;
+	@FindBy(id = "cc_exp_month")
+	private WebElement em;
+	@FindBy(id = "cc_exp_year")
+	private WebElement ey;
+	@FindBy(id = "cc_cvv")
+	private WebElement cvv;
+	@FindBy(id = "book_now")
+	private WebElement book;
+
+	public HotelBooking(WebDriver driver2) {
+		this.driver = driver2;
+		PageFactory.initElements(driver, this);
+	}
+
+	public WebElement getFn() {
+		return fn;
+	}
+
+	public WebElement getLn() {
+		return ln;
+	}
+
+	public WebElement getAddress() {
+		return address;
+	}
+
+	public WebElement getCc() {
+		return cc;
+	}
+
+	public WebElement getType() {
+		return type;
+	}
+
+	public WebElement getEm() {
+		return em;
+	}
+
+	public WebElement getEy() {
+		return ey;
+	}
+
+	public WebElement getCvv() {
+		return cvv;
+	}
+
+	public WebElement getBook() {
+		return book;
+	}
+
+}
+
+
+			LOGOUT PAGE
+
+package com.pageobject;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class LogOut {
+	public static WebDriver driver;
+	@FindBy(id = "logout")
+	private WebElement logout;
+
+	public LogOut(WebDriver driver2) {
+		this.driver = driver2;
+		PageFactory.initElements(driver, this);
+	}
+
+	public WebElement getLogout() {
+		return logout;
+	}
+
+}
+
+
+			PAGE OBJECT MANAGER
+
+package com.pom;
+
+import org.openqa.selenium.WebDriver;
+
+import com.pageobject.HotelBooking;
+import com.pageobject.LogOut;
+import com.pageobject.LoginPage;
+import com.pageobject.SearchHotel;
+import com.pageobject.SelectHotel;
+
+public class PageObjectManager {
+	public static WebDriver driver;
+	public PageObjectManager(WebDriver driver2) {
+		this.driver = driver2;
+	}
+	private LoginPage lp;
+	private SearchHotel sh;
+	private SelectHotel hp;
+	private HotelBooking hb;
+	private LogOut lo;
+	
+	public LoginPage getLp() {
+		lp = new LoginPage(driver);
+		return lp;
+	}
+	
+	public SearchHotel getSh() {
+		sh = new SearchHotel(driver);
+		return sh;
+	}
+		
+	
+	public SelectHotel getHp() {
+		hp = new SelectHotel(driver);
+		return hp;
+	}
+	
+	public HotelBooking getHb() {
+		hb = new HotelBooking(driver);
+		return hb;
+	}
+	
+	public LogOut getLo() {
+		lo = new LogOut(driver);
+		return lo;
+	}
+
+	
+}
